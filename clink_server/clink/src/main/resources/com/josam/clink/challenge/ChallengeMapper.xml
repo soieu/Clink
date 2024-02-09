@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.josam.clink.challenge.ChallengeMapper">
+	
+	<select id="myChallenge" parameterType="com.josam.clink.user.User_MasterVO" resultType="com.josam.clink.challenge.ChallengeVO">
+		SELECT * FROM Challenge_Detail WHERE user_no=#{user_no}
+	</select>
+	
+	<select id="todayHistory" parameterType="com.josam.clink.user.User_MasterVO" resultType="com.josam.clink.challenge.HistoryVO">
+		SELECT	* 
+		FROM	Account_History 
+		WHERE user_no=#{user_no} 
+			AND DATE_FORMAT(transaction_datetime, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d') 
+			AND history_delete_yn LIKE "n";
+	</select>
+	
+	<select id="yesterdayHistory" parameterType="com.josam.clink.user.User_MasterVO" resultType="com.josam.clink.challenge.HistoryVO">
+		SELECT  *
+		FROM	Account_History
+		WHERE	DATE_FORMAT(transaction_datetime, '%Y-%m-%d') = DATE_FORMAT(now() - INTERVAL 1 DAY, '%Y-%m-%d')
+			AND history_delete_yn LIKE 'n';
+	</select>
+	
+	<select id="weekHistory" parameterType="com.josam.clink.user.User_MasterVO" resultType="com.josam.clink.challenge.ChartVO">
+		SELECT 
+			DATE_FORMAT(transaction_datetime, '%Y-%m-%d') as date,
+			SUM(if(transaction_code like "001", transaction_amount, 0)) as "c1",
+		    SUM(if(transaction_code like "002", transaction_amount, 0)) as "c2",
+		    SUM(if(transaction_code like "003", transaction_amount, 0)) as "c3",
+		    SUM(if(transaction_code like "004", transaction_amount, 0)) as "c4",
+		    SUM(if(transaction_code like "005", transaction_amount, 0)) as "c5",
+		    SUM(if(transaction_code like "006", transaction_amount, 0)) as "c6",
+		    SUM(if(transaction_code like "007", transaction_amount, 0)) as "c7",
+		    SUM(if(transaction_code like "008", transaction_amount, 0)) as "c8",
+		    SUM(if(transaction_code like "009", transaction_amount, 0)) as "c9"
+		FROM 	Account_History
+		WHERE	user_no=#{user_no}
+			AND transaction_datetime BETWEEN DATE_ADD(NOW(), INTERVAL -1 WEEK) AND NOW()
+			AND history_delete_yn LIKE "n"
+		GROUP BY DATE_FORMAT(transaction_datetime, '%Y-%m-%d'); 
+
+	</select>
+	
+	<select id="selectedHistory" parameterType="com.josam.clink.challenge.HistoryVO" resultType="com.josam.clink.challenge.HistoryVO">
+		SELECT	* 
+		FROM	Account_History 
+		WHERE	user_no=#{user_no} 
+			AND history_delete_yn LIKE "n"
+			AND transaction_datetime BETWEEN #{startDate} AND #{endDate} ORDER BY transaction_datetime DESC;
+	</select>
+	
+	<update id="deleteHistory" parameterType="com.josam.clink.challenge.HistoryVO">
+		UPDATE Account_History SET history_delete_yn="y"	 
+			WHERE transaction_info_content LIKE #{transaction_info_content}
+			AND transaction_datetime = #{transaction_datetime}
+			AND user_no = #{user_no};
+	</update>
+	
+	<update id="updateHistory" parameterType="com.josam.clink.challenge.HistoryVO">
+		UPDATE Account_History 
+			SET	transaction_info_content = #{transaction_info_content},
+				transaction_amount = #{transaction_amount},
+				transaction_code = #{transaction_code}
+			WHERE transaction_datetime = #{transaction_datetime}
+				AND user_no = #{user_no};
+	</update>
+	
+	<!-- Test :: 초기 데이터입력 -->
+	
+	<select id="getALLHistory" parameterType="com.josam.clink.user.User_MasterVO" resultType="com.josam.clink.challenge.HistoryVO" >
+		SELECT * FROM Account_History WHERE user_no LIKE #{user_no}
+	</select>
+	
+	<select id="getAllHistoryForInsertSuccess" parameterType="com.josam.clink.user.User_MasterVO" resultType="com.josam.clink.challenge.SuccessVO">
+		SELECT user_no, sum(transaction_amount) as challenge_detail_success_amount, DATE_FORMAT(transaction_datetime, '%Y-%m-%d') as challenge_detail_success_date  
+		FROM clink1.Account_History 
+		WHERE user_no LIKE #{user_no}
+			AND history_delete_yn LIKE 'n'
+		GROUP BY DATE_FORMAT(transaction_datetime, '%Y-%m-%d');
+	</select>
+	
+	<insert id="insertSuccess" parameterType="com.josam.clink.challenge.SuccessVO">
+		INSERT INTO Callenge_Success_Detail (challenge_detail_success_date, challenge_no, user_no, challenge_detail_success_amount, register_datetime, register_id) 
+									VALUES (#{challenge_detail_success_date}, #{challenge_no}, #{user_no}, #{challenge_detail_success_amount}, now(), #{register_id})
+	</insert>
+
+
+	<!-- 챌린지 설정 -->
+	<insert id="registerChallenge" parameterType="com.josam.clink.challenge.ChallengeVO">
+		INSERT INTO Challenge_Detail (challenge_no,user_no,challenge_title,challenge_description,challenge_amount,register_datetime,register_id)
+								VALUES(#{challenge_no},#{user_no},#{challenge_title},#{challenge_description},#{challenge_amount},now(),#{user_no})
+	</insert>
+	
+	<!-- 챌린지 조회 -->
+	<select id="checkChallenge">
+		select count(user_no) from Challenge_Detail where user_no=#{userNo}
+	</select>
+</mapper>

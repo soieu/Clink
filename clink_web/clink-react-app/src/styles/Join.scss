@@ -1,0 +1,55 @@
+#backgroundCircle {
+  width: 585px;
+  height: 585px;
+  border-radius: 50%;
+  position: absolute;
+  top: -292px;
+  left: -292px;
+  background-color: #cfe2ff;
+  z-index: 1;
+}
+.JoinContainer {
+  height: 100vh;
+  text-align: center;
+  .JoinTitle > h1 {
+    font-weight: 1000;
+    margin: 12% 0 60px 50px;
+    text-align: left;
+    position: relative;
+    z-index: 99;
+  }
+  .JoinInputBox {
+    .joinInput {
+      position: relative;
+      z-index: 99;
+      width: 80%;
+      height: 38px;
+      margin: 0 auto;
+      z-index: 2;
+    }
+    > div {
+      height: 38px;
+      z-index: 2;
+      position: relative;
+      line-height: 38px;
+    }
+  }
+  .JoinBtnBox > Button {
+    width: 137px;
+    height: 50px;
+    margin-top: 10%;
+    margin-bottom: 7%;
+    font-weight: bold;
+  }
+  #JoinIdentifyBtn {
+    color: #3d8bfd;
+    font-weight: 800;
+    background-color: #cfe2ff;
+    border: none;
+  }
+  .JoinLoginBtn {
+    color: #3d8bfd;
+    font-weight: 600;
+    cursor: pointer;
+  }
+}

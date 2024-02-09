@@ -1,0 +1,83 @@
+.MyPageContainer {
+  width: 100%;
+  height: 100%;
+  .MyPageTitle {
+    font-size: 23px;
+    font-weight: 900;
+    text-align: center;
+    padding: 50px;
+  }
+  .MyPageProfileTitle {
+    font-size: 16px;
+    font-weight: 600;
+    text-align: left;
+    padding: 0 10px 30px 25px;
+    margin: 2% 0 0 0;
+  }
+  .MyPageProfileBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      width: 90px;
+      height: 90px;
+      border: 2px solid #015adf;
+      border-radius: 50%;
+      margin: 10px 50px 10px 10px;
+    }
+    .MyPageProfileBtn {
+      width: 150px;
+    }
+    .MyPageChoiceBtn {
+      display: none;
+    }
+    .MyPageProfileSelectBtn {
+      width: 80px;
+      height: 38px;
+      background: #fff;
+      border: 1px solid rgb(77, 77, 77);
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:hover {
+        background: #015adf;
+        color: #fff;
+      }
+    }
+  }
+  .MyPageAddAccount {
+    width: 100%;
+    height: 20%;
+  }
+  .MyPageAccounttitle,
+  .MyPageInfotitle {
+    font-size: 16px;
+    font-weight: 600;
+    text-align: left;
+    padding: 0 10px 30px 25px;
+    margin: 8% 0 0 0;
+  }
+  .MyPageInfoBox {
+    width: 88%;
+    margin: 0 auto;
+    margin-top: 5px;
+    .joinInput {
+      width: 70%;
+      height: 38px;
+      margin-bottom: 14px;
+      color: gray;
+    }
+    .MyPageLineBox {
+      display: flex;
+      justify-content: space-between;
+      line-height: 38px;
+      // flex-grow: 1;
+    }
+  }
+  .MypageHr {
+    width: 90%;
+    margin: 20px auto 10px auto;
+  }
+}

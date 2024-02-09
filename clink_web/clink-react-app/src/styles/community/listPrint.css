@@ -1,0 +1,28 @@
+.listForm {
+  width: 100%;
+  padding: 0 0 0 20px;
+  box-sizing: border-box;
+  background-color: white;
+}
+.listTitle {
+  text-align: left;
+  color: black;
+  font-size: medium;
+}
+.list {
+  width: 100%;
+  list-style: none;
+  padding-left: 0px;
+  text-align: left;
+}
+.listNum {
+  color: #0d6efd;
+  margin-left: 0;
+  margin-right: 10px;
+}
+.d {
+  margin-right: 10px;
+}
+.boardTi {
+  overflow: hidden;
+}

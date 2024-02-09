@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.josam.clink.financeInfo.NewsMapper">
+	<select id="getNewsData" resultType="com.josam.clink.financeInfo.NewsVO">
+		SELECT news_title, news_img,news_link 
+		FROM Finance_News_Detail 
+		ORDER BY register_datetime desc LIMIT 10
+	</select>
+	
+	<insert id="insertNewsData" parameterType="com.josam.clink.financeInfo.NewsVO">
+		INSERT INTO 
+			Finance_News_Detail(news_title,news_img,news_link,register_datetime)
+		VALUES(#{news_title},#{news_img},#{news_link},now());
+	</insert>
+	
+	<delete id="deleteNewsData">
+		DELETE 
+		FROM Finance_News_Detail
+		WHERE register_datetime in(
+			SELECT *
+				FROM(SELECT register_datetime
+				  FROM Finance_News_Detail
+				  ORDER BY register_datetime LIMIT 10) AS reg)
+	</delete>
+</mapper>

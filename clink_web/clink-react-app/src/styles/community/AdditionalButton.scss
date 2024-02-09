@@ -1,0 +1,22 @@
+.sub {
+  position: absolute;
+  right: 10px;
+  list-style: none;
+  border: 1px solid black;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.sub li {
+  font-weight: bold;
+}
+
+.sub li > a {
+  text-decoration: none;
+  color: black;
+}
+
+.sub li:hover {
+    text-decoration: underline;
+  }

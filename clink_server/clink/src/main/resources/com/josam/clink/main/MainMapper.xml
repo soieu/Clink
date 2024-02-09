@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.josam.clink.main.MainMapper">
+	
+	<select id="getBadge" parameterType="com.josam.clink.user.User_MasterVO" resultType="com.josam.clink.main.BadgeVO">
+		SELECT * FROM User_Badge_Description WHERE user_no = #{user_no};
+	</select>
+	
+	<select id="getQuote" resultType="com.josam.clink.main.QuoteVO">
+		SELECT * FROM Quote_Base ORDER BY RAND() LIMIT 1;
+	</select>
+	
+	<select id="getStreakData" parameterType="com.josam.clink.challenge.ChallengeVO" resultType="com.josam.clink.main.StreakdataVO">
+		SELECT DATE_FORMAT(challenge_detail_success_date, '%Y-%m-%d') AS day, (#{challenge_amount} - challenge_detail_success_amount) AS value
+		FROM Callenge_Success_Detail 
+		WHERE user_no=#{user_no}
+			AND challenge_no=#{challenge_no}
+			AND challenge_detail_success_date BETWEEN #{from} AND #{to}
+		ORDER BY challenge_detail_success_date DESC;
+	</select>
+	
+	<select id="getYesterdaySaving" parameterType="com.josam.clink.challenge.ChallengeVO" resultType="com.josam.clink.challenge.SuccessVO">
+		SELECT	DATE_FORMAT(transaction_datetime, '%Y-%m-%d') as challenge_detail_success_date, SUM(transaction_amount) as challenge_detail_success_amount, (50000 - SUM(transaction_amount)) as result_success_amount
+		FROM	clink1.Account_History 
+		WHERE	user_no=#{user_no}
+			AND DATE_FORMAT(transaction_datetime, '%Y-%m-%d') = DATE_FORMAT(now() - INTERVAL 1 DAY, '%Y-%m-%d')
+	</select>
+	
+	<select id="getTotalSaving" parameterType="com.josam.clink.challenge.ChallengeVO" resultType="com.josam.clink.challenge.SuccessVO">
+		SELECT 	SUM(#{challenge_amount} - challenge_detail_success_amount) as result_success_amount
+		FROM	Callenge_Success_Detail 
+		WHERE	challenge_no= #{challenge_no}
+			AND user_no=#{user_no};
+			
+	</select>
+	
+	<select id="getReportData" parameterType="com.josam.clink.user.User_MasterVO" resultType="com.josam.clink.main.ReportVO">
+		SELECT	SUM(transaction_amount) as sum, MAX(transaction_amount) as high, MIN(transaction_amount) as low, ROUND(AVG(transaction_amount), 0) as avg
+		FROM	Account_History 
+		WHERE	user_no=#{user_no}
+			AND history_delete_yn LIKE 'n'
+			AND DATE_FORMAT(transaction_datetime, '%Y-%m-%d') = DATE_FORMAT(now() - INTERVAL 1 DAY, '%Y-%m-%d');
+	</select>
+	
+	<select id="getCategoryData" parameterType="com.josam.clink.user.User_MasterVO" resultType="com.josam.clink.main.ReportVO">
+		SELECT  transaction_code as category, SUM(transaction_amount) as categoryAmount
+		FROM	clink1.Account_History
+		WHERE	DATE_FORMAT(transaction_datetime, '%Y-%m-%d') = DATE_FORMAT(now() - INTERVAL 1 DAY, '%Y-%m-%d')
+			AND history_delete_yn LIKE 'n'
+		GROUP BY transaction_code
+		ORDER BY categoryAmount DESC
+		LIMIT 1;
+	</select>
+
+</mapper>

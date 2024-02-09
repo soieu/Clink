@@ -1,0 +1,58 @@
+.LoginContainer {
+  text-align: center;
+  width: 100%;
+  height: 100vh;
+  margin-top: 10%;
+  .LoginImage {
+    margin: 61px auto 0;
+    img {
+      width: 110px;
+      height: 110px;
+      margin: 70px 0 40px 0;
+    }
+  }
+  .LoginTitle > h2 {
+    text-align: left;
+    margin: 30px 0 60px 50px;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  #inputPassword5 {
+    width: 325px;
+    height: 38px;
+  }
+  .LoginForm > input {
+    margin: 0 auto;
+    margin-bottom: 15px;
+    :focus {
+      color: #0d6efd;
+    }
+  }
+  .joinNfindBox {
+    display: flex;
+    justify-content: space-around;
+    button {
+      border: none;
+      background: none;
+      color: #0d6efd;
+      font-weight: 600;
+      margin-top: 25px;
+      margin-bottom: 50px;
+      a {
+        text-decoration: none;
+      }
+    }
+  }
+  .LoginSubmitBtn {
+    background-color: #0d6efd;
+    width: 110px;
+    height: 45px;
+    margin: 0 auto;
+  }
+}
+
+// @media (max-width: 430px) {
+//   #inputPassword5 {
+//     width: 80%;
+//   }
+// }

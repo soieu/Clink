@@ -1,0 +1,85 @@
+.CommunityPostContainer {
+  background-color: white;
+  padding-bottom: 20px;
+  background-clip: content-box;
+  position: relative;
+  .CommunityPostTags {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    height: 50px;
+    padding-left: 20px;
+    Button {
+      margin: 0px 10px 0px 10px;
+      padding: 0px 5px 0px 5px;
+    }
+  }
+  .CommunityPost {
+    border-bottom: 1px solid #f1f1f1;
+    .PostProfileDiv {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      .menu {
+        padding-right: 15px;
+        display: block;
+      }
+      .CommunityPostProfile {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        .CommunityPostProfileImg {
+          width: 50px;
+          height: 50px;
+          border-radius: 100%;
+          background-color: beige;
+          position: relative;
+          left: 20px;
+          img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 100%;
+          }
+        }
+        .CommunityPostProfileText {
+          position: relative;
+          left: 30px;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          p {
+            margin: 0px;
+            padding: 0px;
+          }
+          .CommunityPostProfileNickname {
+            font-weight: bold;
+          }
+          .CommunityPostProfileTime {
+            color: #6c757d;
+          }
+        }
+      }
+    }
+    .CommunityPostContent {
+      padding-left: 30px;
+      padding-right: 30px;
+
+      text-align: start;
+    }
+  }
+  .CommunityPostInfo {
+    height: 50px;
+    display: flex;
+
+    justify-content: space-around;
+    button {
+      border: none;
+      background-color: rgba(255, 255, 255, 0);
+    }
+  }
+}

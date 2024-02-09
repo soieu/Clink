@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.josam.clink.communityPost.CommunityPostMapper">
+	<select id="list">
+		select * from Board_Detail order by board_like_count desc Limit 5
+	</select>
+	<select id="freeList">
+		select * from Board_Detail where category_no=1 order by board_like_count desc Limit 5
+	</select>
+	<select id="infoList">
+		select * from Board_Detail where category_no=2 order by board_like_count desc Limit 5
+	</select>
+	<select id="annList">
+		select * from Board_Detail where category_no=3 order by board_like_count desc Limit 5
+	</select>
+	<select id="testss">
+		select user_id from User_Master where user_no="0";
+	</select>
+	<select id="getPostsbyRecent" parameterType="map" resultType="com.josam.clink.communityPost.CommunityPostVO">
+		SELECT 
+			b.board_no, 
+		    b.user_no, 
+		    b.category_no, 
+		    b.board_views, 
+		    b.board_title,
+		    b.board_content, 
+		    b.board_like_count, 
+		    b.hashtag_content,
+		    b.register_datetime,
+		    b.register_id,
+		    b.board_delete_yn,
+		    u.photo_url,
+		    SUM(IF(c.comment_delete_yn="N",1,0)) comment_count
+		FROM Board_Detail b
+		LEFT OUTER JOIN Comment_Detail c
+		ON b.board_no = c.board_no
+		LEFT OUTER JOIN User_Master u
+		ON b.user_no = u.user_no
+		WHERE category_no=#{category_no} 
+		AND board_delete_yn ='N'
+		AND hashtag_content like CONCAT('%', #{hashtag}, '%')
+		GROUP BY b.board_no
+		ORDER BY board_no DESC
+		LIMIT 50;
+	</select>
+	<select id="getLastBoardNo" parameterType="map" resultType="int">
+		SELECT MIN(Board_no)-1
+		FROM Board_Detail
+		WHERE category_no=#{category_no}
+		AND #{last_board_no} >= board_no
+		AND board_delete_yn = "N"
+		AND hashtag_content like CONCAT('%', #{hashtag}, '%')
+		ORDER BY board_no DESC
+		LIMIT 5;
+	</select>
+	<select id="getBoardCount" parameterType="map" resultType="int">
+		SELECT MAX(Board_no)
+		FROM Board_Detail
+		WHERE category_no=#{category_no}
+		AND board_delete_yn = "N"
+		
+	</select>
+	<select id="getPostsbyLike" parameterType="STRING" resultType="com.josam.clink.communityPost.CommunityPostVO">
+		SELECT 
+			b.board_no, 
+		    b.user_no, 
+		    b.category_no, 
+		    b.board_views, 
+		    b.board_title,
+		    b.board_content, 
+		    b.board_like_count, 
+		    b.hashtag_content,
+		    b.register_datetime,
+		    b.register_id,
+		    b.board_delete_yn,
+		    u.photo_url,
+		    SUM(IF(c.comment_delete_yn="N",1,0)) comment_count
+		FROM Board_Detail b
+		LEFT OUTER JOIN Comment_Detail c
+		ON b.board_no = c.board_no
+		LEFT OUTER JOIN User_Master u
+		ON b.user_no = u.user_no
+		WHERE category_no=#{category_no} 
+		AND hashtag_content like CONCAT('%', #{hashtag}, '%')
+		AND board_delete_yn ='N'
+		GROUP BY b.board_no
+		ORDER BY board_like_count DESC, board_no DESC
+		LIMIT 50;
+	</select>
+	<select id="getBestPosts" parameterType="STRING" resultType="com.josam.clink.communityPost.CommunityPostVO">
+		SELECT 
+			b.board_no, 
+		    b.user_no, 
+		    b.category_no, 
+		    b.board_views, 
+		    b.board_title,
+		    b.board_content, 
+		    b.board_like_count, 
+		    b.hashtag_content,
+		    b.register_datetime,
+		    b.register_id,
+		    b.board_delete_yn,
+		    u.photo_url,
+		    SUM(IF(c.comment_delete_yn="N",1,0)) comment_count
+		FROM Board_Detail b
+		LEFT OUTER JOIN Comment_Detail c
+		ON b.board_no = c.board_no
+		LEFT OUTER JOIN User_Master u
+		ON b.user_no = u.user_no
+		WHERE board_like_count >= 10
+		AND board_delete_yn ='N'
+		GROUP BY b.board_no
+		ORDER BY board_no DESC
+		LIMIT 50;
+	</select>
+	<select id="getHashtag">
+		SELECT hashtag_content
+		FROM (select * from Hashtag_Detail where hashtag_content != "") as h , (select board_no from Board_Detail where board_delete_yn="N") as b
+		where  h.board_no = b.board_no and h.category_no = #{category_no}
+		group by hashtag_content
+		order by count(hashtag_content) desc Limit 3;
+	</select>
+</mapper>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.josam.clink.user.UserMapper">
+
+	<!-- 회원가입 -->
+	<insert id="insert"
+		parameterType="com.josam.clink.user.User_MasterVO">
+		INSERT INTO User_Master (`user_no`,
+		`user_id`, `user_name`,
+		`nick_name`,
+		`password`, `email`,
+		`phone_number`, `photo_url`,
+		`user_status_yn`,
+		`register_datetime`, `register_id`,`update_datetime`,
+		`updater_id`
+		)
+		VALUES (#{user_no},
+		#{user_id}, #{user_name}, #{nick_name},
+		#{password},
+		#{email}, #{phone_number},
+		"pig.png", "Y",
+		now(),
+		#{register_id},#{update_datetime},#{updater_id}
+		)
+	<!-- <selectKey keyProperty="user_no" order="AFTER" resultType="string"> 
+			SELECT LAST_INSERT_ID() </selectKey> --> 
+	</insert>
+
+	<!-- 정보 확인 -->
+	<select id="getUserNo" parameterType="string"
+		resultType="string">
+		SELECT user_no
+		FROM User_Master WHERE user_id = #{user_id}
+	</select>
+
+	<!-- 로그인 -->
+	<select id="login"
+		parameterType="com.josam.clink.user.User_MasterVO" resultType="map">
+		SELECT *
+		FROM User_Master WHERE user_id = #{user_id}
+	</select>
+
+	<select id="getChallengeDetailsByUserId" parameterType="String"
+		resultType="INTEGER">
+		SELECT count(challenge_no) FROM Challenge_Detail WHERE user_no = #{user_no}
+	</select>
+	
+	<!-- 정보 확인 -->
+	<select id="getUserInfo" resultType="com.josam.clink.user.User_MasterVO">
+	  SELECT *
+	  FROM User_Master
+	  WHERE user_no = #{user_no}
+	</select>
+	
+
+	<!-- 아이디 중복확인 -->
+	<select id="checkDuplicateId" resultType="INTEGER">
+		SELECT count(*) FROM
+		User_Master WHERE user_id =#{user_id}
+	</select>
+
+	<!-- 이메일 중복확인 -->
+	<select id="checkDuplicateEmail" resultType="boolean">
+		select count(*) from
+		User_Master where email =#{email}
+	</select>
+
+	<!-- 프로필 사진 업로드 -->
+	<update id="profileImage"
+		parameterType="com.josam.clink.user.User_MasterVO">
+		UPDATE User_Master
+		SET photo_url = #{photo_url}
+		WHERE
+		user_no = #{user_no}
+	</update>
+
+	<!-- 개인정보 업데이트 -->
+	<update id="update"
+		parameterType="com.josam.clink.user.User_MasterVO">
+		UPDATE User_Master
+		<set>
+			<if test="nick_name != null and nick_name != ''">
+				nick_name = #{nick_name},
+			</if>
+			<if test="password != null and password != ''">
+				password = #{password},
+			</if>
+			update_datetime = now(),
+			updater_id=#{user_id}
+		</set>
+		WHERE user_no =#{user_no}
+	</update>
+
+	<!-- 계좌등록 -->
+	<insert id="registAccount"
+		parameterType="com.josam.clink.user.Account_DetailVO">
+		INSERT INTO Account_Detail (
+		`user_no`, `account_no`,
+		`account_balance`, `account_code`, `bank_code`, `register_id`,
+		`register_datetime`
+		) VALUES (
+		#{user_no},
+		#{account_no},
+		#{account_balance}, #{account_code}, #{bank_code},#{user_no}, now()
+		)
+	</insert>
+
+	<!-- 계좌 업데이트 -->
+	<update id="updateAccount"
+		parameterType="com.josam.clink.user.Account_DetailVO">
+		UPDATE Account_Detail
+		<set>
+			<if test="account_no != null and account_no != ''">
+				account_no = #{account_no},
+			</if>
+			<if test="bank_code != null and bank_code != ''">
+				bank_code = #{bank_code},
+			</if>
+			update_datetime = now(),
+			update_id=#{user_no}
+		</set>
+		WHERE user_no =#{user_no}
+		AND account_code=#{account_code}
+	</update>
+
+	<!-- 계좌 확인 -->
+	<select id="checkAccount"
+		parameterType="com.josam.clink.user.Account_DetailVO"
+		resultType="com.josam.clink.user.Account_DetailVO">
+		SELECT * FROM Account_Detail WHERE user_no = #{user_no};
+	</select>
+
+	
+	<select id="selectUserById" parameterType="INTEGER"
+		resultType="com.josam.clink.user.User_MasterVO">
+		SELECT * FROM User_Master WHERE user_id = #{user_id}
+	</select>
+
+	<!-- 토큰용 -->
+	<select id="findById" parameterType="String"
+		resultType="com.josam.clink.user.User_MasterVO">
+		SELECT * FROM User_Master WHERE user_id = #{user_id}
+	</select>
+
+</mapper>
+

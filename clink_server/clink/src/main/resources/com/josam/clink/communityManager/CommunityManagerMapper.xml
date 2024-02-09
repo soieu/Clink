@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.josam.clink.communityManager.CommunityManagerMapper">
+	<insert id="insertComment" parameterType="com.josam.clink.communityPost.CommunityPostVO" useGeneratedKeys="true" keyProperty="comment_id">
+		INSERT INTO Comment_Detail 
+				(board_no, register_id, register_datetime, comment_content, parent_id, comment_delete_yn, user_no)
+		values(#{board_no}, #{register_id}, now(), #{comment_content}, #{parent_id}, "N", #{user_no})
+	</insert>
+	<select id="getCommentId" resultType="INTEGER">
+		SELECT MAX(comment_id)
+		FROM Comment_Detail
+	</select>
+	
+	<select id="getPost" parameterType="INTEGER" resultType="com.josam.clink.communityPost.CommunityPostVO">
+		SELECT 
+			b.board_no, 
+			b.board_title, 
+			b.board_content, 
+			b.register_datetime, 
+			b.register_id, 
+			b.board_like_count,
+			b.hashtag_content,
+			b.board_views,
+			b.category_no,
+            u.photo_url
+		FROM Board_Detail b
+        LEFT OUTER JOIN User_Master u
+			ON b.user_no = u.user_no
+		WHERE board_no=#{board_no}
+		AND board_delete_yn ='N'
+		ORDER BY b.register_datetime DESC;
+	</select>
+	<update id="updateBoard" parameterType="com.josam.clink.communityPost.CommunityPostVO" >
+		UPDATE Board_Detail SET 
+			board_title = #{board_title},
+			board_content = #{board_content},
+		    update_datetime = now(),
+		    hashtag_content= #{hashtag_content},
+		    updater_id=#{register_id}
+		WHERE board_no = #{board_no};
+	</update>
+	<update id="deleteBoard" parameterType="INTEGER">
+		UPDATE Board_Detail SET
+			board_delete_yn = 'Y'
+		WHERE board_no = #{board_no};
+	</update>
+	
+	<select id="getComment" parameterType="INTEGER" resultType="com.josam.clink.communityManager.CommentVO">
+		SELECT 
+			c.comment_id,
+            c.board_no,
+            c.comment_content,
+            c.register_datetime,
+            c.register_id,
+            c.update_datetime,
+            c.update_id,
+            c.parent_id,
+            c.comment_delete_yn,
+            c.user_no,
+            u.photo_url 
+		FROM Comment_Detail c
+		LEFT OUTER JOIN User_Master u
+		ON c.user_no = u.user_no
+		WHERE c.board_no=#{board_no} 	
+		AND c.comment_delete_yn ='N'
+		ORDER BY c.parent_id ASC, c.register_datetime ASC;
+	</select>
+	
+	<update id="deleteComment" parameterType="INTEGER">
+		UPDATE Comment_Detail SET
+			comment_delete_yn = 'Y'
+		WHERE comment_id = #{comment_id};
+	</update>
+	<insert id="insertPost" parameterType="com.josam.clink.communityPost.CommunityPostVO">
+		INSERT INTO Board_Detail(
+			user_no ,
+			category_no ,
+			board_views,
+			board_title,
+			board_content,
+			board_like_count,
+			hashtag_content,
+			register_datetime,
+			register_id,
+			board_delete_yn) 
+		VALUES(
+			#{user_no},
+			#{category_no},
+			0,
+			#{board_title},
+			#{board_content},
+			0,
+			#{hashtag_content},
+			now(),
+			#{register_id},
+			"N"
+			)
+	</insert>
+	<insert id="insertHashtag">
+		insert into Hashtag_Detail(board_no,category_no,hashtag_content,register_datetime,register_id) 
+		values(#{boardNo},#{category_no},#{hashtag},now(),"test")
+	</insert>
+	
+	
+	
+	
+	<insert id="insertLike" parameterType="com.josam.clink.communityManager.LikeVO">
+		INSERT INTO Like_Detail
+			(register_datetime, user_id, board_no)
+    	VALUES (now(), #{user_id}, #{board_no});
+	</insert>
+
+	<update id="plusLike" parameterType="INTEGER">
+		UPDATE Board_Detail
+		SET
+			board_like_count = board_like_count +1
+		WHERE board_no = #{board_no};
+	</update>
+	<delete id="deleteLike"  parameterType="com.josam.clink.communityManager.LikeVO">
+		DELETE FROM Like_Detail
+		WHERE user_id = #{user_id}
+		AND board_no = #{board_no};
+	</delete>
+	<update id="minusLike" parameterType="INTEGER">
+		UPDATE Board_Detail
+		SET
+			board_like_count = board_like_count - 1
+		WHERE board_no = #{board_no};
+	</update>
+	<select id="getLike" parameterType="map" resultType="integer">
+		SELECT exists(
+				SELECT board_no
+				FROM Like_Detail
+				WHERE user_id = #{user_id}
+				AND board_no = #{board_no}
+				) AS is_like;
+	</select>
+	<select id="getCommentCount" parameterType="integer" resultType="integer">
+		SELECT COUNT(*)
+		FROM Comment_Detail
+		WHERE board_no = #{board_no}
+		AND comment_delete_yn = "N";
+	</select>
+
+	<select id="getBoardNo" parameterType="integer">
+		SELECT board_no
+		FROM Board_Detail
+		ORDER BY board_no DESC LIMIT 1 
+	</select>
+	
+	<select id="getBoardViews">
+		SELECT board_views FROM Board_Detail WHERE board_no=#{board_no}
+	</select>
+	<update id="updateBoardViews" parameterType="integer">
+		UPDATE Board_Detail 
+		SET board_views = #{getBoardViews}
+		WHERE board_no=#{board_no}
+	</update>
+	<select id="hasReply" parameterType="INTEGER" resultType="INTEGER">
+		SELECT EXISTS (
+			SELECT comment_id
+			FROM Comment_Detail
+			WHERE parent_id = #{parent_id}
+			AND comment_id != parent_id
+			AND comment_delete_yn = "N"
+	    ) as success;
+	</select>
+</mapper>

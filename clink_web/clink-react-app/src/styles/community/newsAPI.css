@@ -1,0 +1,14 @@
+.newsTitle {
+  display: inline-block;
+  font-size: 1px;
+  width: 114px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.newWrap a img {
+  border: 1px solid #0d6efd;
+  width: 112px;
+  height: 64px;
+  box-shadow: 1px 1px 1px 1px gray;
+}

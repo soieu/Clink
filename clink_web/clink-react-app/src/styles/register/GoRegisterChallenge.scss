@@ -1,0 +1,36 @@
+.RegisterBox {
+  width: 100%;
+  height: 50px;
+  margin-top: 30px;
+  .RegisterBtn {
+    display: flex;
+    height: 50px;
+    line-height: 50px;
+    color: rgb(241, 239, 239);
+    text-decoration: none;
+  }
+  .RegisterText {
+    height: 50px;
+    text-align: center;
+    background-color: #0d6efd;
+    border: 1px solid #0d6efd;
+    width: 70%;
+    h3 {
+      line-height: 50px;
+      .RegisterPlusBtn {
+        height: 50px;
+        width: 30px;
+      }
+    }
+  }
+  .RRadius {
+    width: 15%;
+    border-radius: 0 50% 50% 0;
+    background-color: #0d6efd;
+  }
+  .LRadius {
+    width: 15%;
+    border-radius: 50% 0 0 50%;
+    background-color: #0d6efd;
+  }
+}

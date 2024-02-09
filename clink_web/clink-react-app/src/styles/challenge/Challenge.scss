@@ -1,0 +1,200 @@
+@use '../Theme.scss' as theme;
+
+.Challenge{
+    background-color: theme.$background;
+
+    position: relative;
+
+    #backgroundCircle {
+    width: 585px;
+    height: 585px;
+    border-radius: 100%;
+    position: absolute;
+    top: -450px;
+    left: -292px;
+    background-color: theme.$blue-main;
+
+    }
+
+    .ChallengeTitle{
+        width: 100%;
+        height: 80px;
+        z-index: 1;
+        position: relative;
+        padding-left: 35px;
+        padding-right: 35px;
+
+        #ChallengeTitle{
+            width: 100%;
+            height: 50px;
+            text-align: left;
+            font-size: 25px;
+            font-weight: 900;
+        }
+        #ChallengeDescription{
+            width: 100%;
+            height: 30px;
+            text-align: right;
+            font-size: 15px;
+            font-weight: 900;
+            color: theme.$blue-dark;
+        }
+    }
+}
+
+.challengContent{
+    width: 100%;
+    position: relative;    
+    background-color: theme.$background;
+
+    .ChallengeGoal{
+        background-color: white;
+        height: 85px;
+        margin: 20px;
+        z-index: 100;    
+        .ChallengeGoalContent{
+            width: 100%;
+            height: 65px;
+            padding: 13px;
+            .progress{
+                width: 100%;
+                height: 100%;
+                border-radius: 5px;
+                .progress-bar{
+                    height: 100%;
+                    background-color: theme.$blue-main;
+                    position: relative;
+                    font-weight: 900;
+                }
+            }
+            #ChallengeTodaysGoal{
+                width: 100%;
+                height: 30px;
+                padding: 5px;
+                font-size: 12px;
+                font-weight: 900;
+                color: theme.$blue-main;
+            }
+        }
+    }
+
+    .ChallengeTable{
+        width: 90%;
+        margin: 20px;
+        #SelectedDate{
+            display: flex;
+            height: 20px;
+            margin: 10px;
+            text-align: left;
+            font-weight: 900;
+        }
+        .ChallengeTableCard{
+            width: 95%;
+            margin: 10px;
+            padding: 10px;
+            height: 75px;
+            background-color: theme.$blue-light;
+            .Card{
+                .CardTop{
+                    width: 100%;
+                    height: 30px;
+                    div{
+                        height: 100%;
+                        width: 30%;
+                        float: left;
+                        text-align: left;
+                        line-height: 40px;
+                        font-weight: 900;
+                    }
+                    #CardLeft{
+                        font-size: 14px;
+                    }
+                    #CardMiddle{
+                        width: 40%;
+                        font-size: 15px;
+                        input#description{
+                            width: 90%;
+                            height: 80%;
+                            margin-bottom: 1px;
+                            margin-right: 10px;
+                            padding-left: 4px;
+                            border-radius: 2px;
+                            border-width: 1px;
+                        }
+                    }
+                    #CardRight{
+                        text-align: right;
+                        font-size: 17px;
+                        input#amount{
+                            width: 90%;
+                            height: 80%;
+                            margin-left: 10px;
+                            padding-left: 4px;
+                            border-radius: 2px;
+                            border-width: 1px;
+                            font-size: 14px;
+                        }
+                    }   
+                }
+                .CardBottom{
+                    width: 100%;
+                    height: 25px;
+                    div{
+                        height: 100%;
+                        width: 30%;
+                        float: left;
+                        text-align: left;
+                    }
+                    #CardLeft{
+                        font-size: 14px;
+                    }
+                    #CardMiddle{
+                        width: 40%;
+                        color: theme.$blue-main;
+                        font-size: 14px;
+                        select#category{
+                            width: 90%;
+                            height: 90%;
+                            margin-top: 5px;
+                        }
+                    }
+                    #CardRight{
+                        width: 30%;
+                        margin-top: 5px;
+
+                        #CardUpdate{
+                            width: 50%;
+                            float: left;
+                            text-align: right;
+                        }
+                        #CardDelete{
+                            width: 50%;
+                            float: left;
+                            text-align: right;
+                        }   
+
+                    }
+                }
+            }
+
+        }
+        
+    }
+    .ChallengeChart{
+        width: 86%;
+        height: 330px;
+        margin: 30px;
+        #ChartText{
+            margin: 10px 0;
+            width: 100%;
+            height: 20px;
+            text-align: left;
+            font-weight: 900;
+        }
+        #Chart{
+            width: 100%;
+            height: 300px;
+            background: white;
+        }
+    }
+}

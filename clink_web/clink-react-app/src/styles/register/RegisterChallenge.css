@@ -1,0 +1,45 @@
+/**/
+.RegisterChallengeWrap {
+  background-color: #f8fafb;
+  position: relative;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+.RebackgroundCircle {
+  width: 585px;
+  height: 585px;
+  border-radius: 100%;
+  position: absolute;
+  top: -400px;
+  left: -292px;
+  background-color: #0d6efd;
+  position: fixed;
+}
+.RegisterTitle {
+  margin-top: 50px;
+  text-align: left;
+  line-height: 100px;
+  width: 100%;
+  height: 100px;
+  position: relative;
+  z-index: 1;
+}
+.FromWrap {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+.Accounttitle {
+  height: 80px;
+  line-height: 80px;
+  text-align: left;
+}
+.range {
+  width: 100%;
+}
+.serviceExplain {
+  width: 100%;
+  height: 320px;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}

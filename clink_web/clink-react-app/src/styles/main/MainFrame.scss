@@ -1,0 +1,147 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+// 메인
+//      인사
+//      명언 껍데기
+//        명언
+
+//      스트릭 그래프 껍데기
+//        글
+//        그래프
+//      저축금액 확인 껍데기
+//          문구 1
+//          문구 2
+//          문구 3
+//      리포트
+//          제목
+//          내용
+
+.main-div {
+  text-align: center;
+  height: 100%;
+  align-items: center;
+  align-content: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: #f8fafb;
+
+  > * {
+    width: 80%;
+    margin: 0 auto;
+    border-radius: 5px;
+    white-space: pre-line; // 자동 줄바꿈
+    background-repeat: no-repeat;
+  }
+
+  .main-hello {
+    color: #ffffff;
+    margin-bottom: 10px;
+    font-size: 20px;
+    height: 30px;
+    font-weight: bolder;
+    display: inline-block;
+    #badgeName {
+      margin: 7px;
+      float: left;
+    }
+    #userName {
+      margin: 7px;
+      float: left;
+    }
+    #hello {
+      margin: 7px;
+      float: left;
+    }
+  }
+
+  .main-quote {
+    text-align: left;
+    background-color: #ffffff;
+    padding: 5px;
+    background-position: right;
+    font-weight: 900;
+    font-size: 14px;
+    margin-top: 10px;
+    height: 95px;
+  }
+
+  .main-calendarGraph {
+    height: 190px;
+    background-color: #ffffff;
+    padding-top: 10px;
+    // box-shadow: 3px 3px 3px 3px gray;
+    margin-top: 20px;
+  }
+
+  .main-savingsYesterday {
+    height: 150px;
+    color: #000000;
+    background-color: #0d6efd;
+    background-position: right;
+    // Test
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateZ(0deg);
+    margin-top: 20px;
+
+    .mainCoin{
+      background-image: url('../../images/mainCoin.svg');
+      position: relative;
+      float: right;
+      height: 100px;
+      width: 100px;
+      margin-top: 30px;
+      margin-right: 10px;
+    }
+
+    .mainCoin:hover{
+      transform: rotateY( 180deg )
+    }
+  }
+
+  @keyframes cardRotate {
+    60% {
+      transform: rotateY(90deg);
+    }
+    50% {
+      transform: rotateZ(0deg) scale(1.5);
+    }
+    40% {
+      transform: rotateZ(-10deg);
+    }
+    30% {
+      transform: rotateZ(10deg);
+    }
+    20% {
+      transform: rotateZ(-10deg);
+    }
+    10% {
+      transform: rotateZ(10deg);
+    }
+    0% {
+      transform: rotateZ(0deg);
+    }
+  }
+  .main-card-rotate {
+    //transform: rotateY(180deg);
+    animation: cardRotate 1.8s;
+  }
+  .main-savingsAll {
+    color: aliceblue;
+  }
+
+  .main-report {
+    background-color: #ffffff;
+    margin-top: 20px;
+    font-size: 14px;
+
+    #emphasis{
+      font-weight: 900;
+      text-decoration: underline;
+      font-size: 14px;
+    }
+  }
+}
